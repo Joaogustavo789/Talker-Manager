@@ -21,5 +21,5 @@ app.listen(PORT, () => {
 app.get('/talker', async (req, res) => {
   const pathTalker = path.resolve(__dirname, '..', 'src', 'talker.json');
   const talker = JSON.parse(await fs.readFile(pathTalker, 'utf8'));
-  res.status(200).json(talker)
+  res.status(200).json(talker);
 });
