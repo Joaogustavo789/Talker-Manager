@@ -2,8 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs').promises;
 const path = require('path');
+const validateEmail = require('./middlewares/validateEmail');
+const validatePassword = require('./middlewares/validatePassword');
 
 const app = express();
+app.use(express.json());
 
 app.use(bodyParser.json());
 
@@ -39,7 +42,7 @@ app.get('/talker/:id', async (req, res) => {
   }
 });
 
-app.post('/login', (_req, res) => {
+app.post('/login', validateEmail, validatePassword, (_req, res) => {
   const genericToken = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
   .split('');
   const newToken = [];
