@@ -74,3 +74,23 @@ async (req, res) => {
   await fs.writeFile(pathTalker, JSON.stringify(talker));
   res.status(201).json({ ...newTalker });
 });
+
+app.put('/talker/:id',
+validateToken,
+validateName,
+validateAge,
+validateTalk,
+validateWatchAt,
+validateRate,
+async (req, res) => {
+  const talkers = JSON.parse(await fs.readFile(pathTalker, 'utf8'));
+  const { id } = req.params;
+  // console.log(talkers);
+  const indexTalker = talkers.findIndex((talker) => talker.id === Number(id));
+  talkers[indexTalker].name = req.body.name;
+  talkers[indexTalker].age = req.body.age;
+  talkers[indexTalker].talk.watchedAt = req.body.talk.watchedAt;
+  talkers[indexTalker].talk.rate = req.body.talk.rate;
+  await fs.writeFile(pathTalker, JSON.stringify(talkers));
+  res.status(200).json({ ...talkers[indexTalker] });
+});
