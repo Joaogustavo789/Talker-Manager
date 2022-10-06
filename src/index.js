@@ -94,3 +94,12 @@ async (req, res) => {
   await fs.writeFile(pathTalker, JSON.stringify(talkers));
   res.status(200).json({ ...talkers[indexTalker] });
 });
+
+app.delete('/talker/:id', validateToken, async (req, res) => {
+  const talkers = JSON.parse(await fs.readFile(pathTalker, 'utf8'));
+  const { id } = req.params;
+  const indexTalker = talkers.findIndex((talker) => talker.id === Number(id));
+  talkers.splice(indexTalker, 1);
+  await fs.writeFile(pathTalker, JSON.stringify(talkers));
+  res.status(204).end();
+});
