@@ -31,16 +31,23 @@ app.listen(PORT, () => {
 });
 
 app.get('/talker', async (req, res) => {
-  const talker = JSON.parse(await fs.readFile(pathTalker, 'utf8'));
-  res.status(200).json(talker);
+  const talkers = JSON.parse(await fs.readFile(pathTalker, 'utf8'));
+  res.status(200).json(talkers);
+});
+
+app.get('/talker/search', validateToken, async (req, res) => {
+  const talkers = JSON.parse(await fs.readFile(pathTalker, 'utf8'));
+  const { q } = req.query;
+  const filterSearch = talkers.filter((talkerSearch) => talkerSearch.name
+  .includes(q));
+  res.status(200).json(filterSearch);
 });
 
 app.get('/talker/:id', async (req, res) => {
-  const talker = JSON.parse(await fs.readFile(pathTalker, 'utf8'));
-  const idManager = talker.find(({ id }) => (
+  const talkers = JSON.parse(await fs.readFile(pathTalker, 'utf8'));
+  const idManager = talkers.find(({ id }) => (
     id === Number(req.params.id)
   ));
-  // console.log(idManager);
   if (idManager) {
     res.status(200).json(idManager);
   } else {
@@ -68,10 +75,10 @@ validateTalk,
 validateWatchAt,
 validateRate,
 async (req, res) => {
-  const talker = JSON.parse(await fs.readFile(pathTalker, 'utf8'));
-  const newTalker = { id: talker.length + 1, ...req.body };
-  talker.push(newTalker);
-  await fs.writeFile(pathTalker, JSON.stringify(talker));
+  const talkers = JSON.parse(await fs.readFile(pathTalker, 'utf8'));
+  const newTalker = { id: talkers.length + 1, ...req.body };
+  talkers.push(newTalker);
+  await fs.writeFile(pathTalker, JSON.stringify(talkers));
   res.status(201).json({ ...newTalker });
 });
 
@@ -85,7 +92,6 @@ validateRate,
 async (req, res) => {
   const talkers = JSON.parse(await fs.readFile(pathTalker, 'utf8'));
   const { id } = req.params;
-  // console.log(talkers);
   const indexTalker = talkers.findIndex((talker) => talker.id === Number(id));
   talkers[indexTalker].name = req.body.name;
   talkers[indexTalker].age = req.body.age;
