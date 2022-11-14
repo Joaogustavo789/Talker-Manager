@@ -17,11 +17,11 @@ cd Talker-Manager
 ```
 #### Em seguida é necessário fazer a instalação das dependências do projeto:
 - Com Docker:
-```bash
+```js
 docker-compose up -d  // Ele irá rodar dois serviços, um do node e um do db!
 ```
 - Sem Docker:
-```bash
+```js
 npm install // Para isso é necessário ter o node instalado na máquina!
 ```
 
