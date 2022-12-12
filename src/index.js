@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const swaggerUi = require('swagger-ui-express');
 const fs = require('fs').promises;
 const path = require('path');
 const validateEmail = require('./middlewares/validateEmail');
@@ -10,6 +11,7 @@ const validateAge = require('./middlewares/validateAge');
 const validateTalk = require('./middlewares/validateTalk');
 const validateWatchAt = require('./middlewares/validateWatchAt');
 const validateRate = require('./middlewares/validateRate');
+const swaggerFile = require('../swagger_output.json');
 
 const app = express();
 app.use(express.json());
@@ -109,3 +111,5 @@ app.delete('/talker/:id', validateToken, async (req, res) => {
   await fs.writeFile(pathTalker, JSON.stringify(talkers));
   res.status(204).end();
 });
+
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
