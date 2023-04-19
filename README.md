@@ -76,8 +76,9 @@ OBS: Se estiver usando `macOS` será necessário colocar manualmente uma opção
 ```
 </details>
 
-
 ## Documentação da API
+<details>
+  <summary>Clique para expandir</summary>
 
 ### Retorna todos os palestrantes
 
@@ -579,6 +580,7 @@ OBS: Se estiver usando `macOS` será necessário colocar manualmente uma opção
   "message": "Token inválido"
 }
 ```
+</details>
 </details>
 
 ## Tecnologias e Ferramentas
